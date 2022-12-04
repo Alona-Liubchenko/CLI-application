@@ -1,9 +1,11 @@
 const fs = require("fs").promises;
-const path = require("path").promises;
-const contactsPath = path("./db/contacts.json");
+const path = require("path");
+const contactsPath = path.join(__dirname, "contacts.json");
 
 function listContacts() {
-  fs.readFile("contacts.json").then((data) => console.log(data.toString()));
+  fs.readFile(contactsPath, "utf-8")
+    .then((data) => console.log(data))
+    .catch((error) => console.log(error.message));
 }
 
 function getContactById(contactId) {
@@ -17,10 +19,11 @@ function removeContact(contactId) {
 function addContact(name, email, phone) {
   // ...твій код
 }
-
-module.exports = {
+const contacts = {
   listContacts,
   getContactById,
   removeContact,
   addContact,
 };
+
+module.exports = contacts;
