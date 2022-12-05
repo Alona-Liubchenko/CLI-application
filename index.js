@@ -11,15 +11,16 @@ const invokeAction = async ({ action, id, name, email, phone }) => {
       break;
 
     case "get":
-      // ... id
+      const contact = await contacts.getContactById(id);
+      console.log("get", contact);
       break;
 
     case "add":
-      // ... name email phone
+      await contacts.addContact(name, email, phone);
       break;
 
     case "remove":
-      // ... id
+      await contacts.removeContact(id);
       break;
 
     default:

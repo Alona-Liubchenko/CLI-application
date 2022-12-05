@@ -1,24 +1,45 @@
-const fs = require("fs").promises;
+const { assert } = require("console");
+const fs = require("fs/promises");
 const path = require("path");
-const contactsPath = path.join(__dirname, "contacts.json");
+const contactsPath = path.join(__dirname, "db/contacts.json");
 
-function listContacts() {
-  fs.readFile(contactsPath, "utf-8")
-    .then((data) => console.log(data))
-    .catch((error) => console.log(error.message));
-}
+const listContacts = async () => {
+  const dataString = await fs.readFile(contactsPath, "utf8");
+  const data = JSON.parse(dataString);
+  return data;
+};
 
-function getContactById(contactId) {
-  // ...твій код
-}
+const getContactById = async (contactId) => {
+  const allContacts = await listContacts();
+  // console.log(allContacts);
+  const contact = allContacts.find((contact) => contact.id === contactId);
+  console.log(contact);
+  return contact ? contact : null;
+};
 
-function removeContact(contactId) {
-  // ...твій код
-}
+const removeContact = async (id) => {
+  const allContacts = await listContacts();
+  const index = allContacts.findIndex((contact) => contact.id === id);
+  console.log(id);
+  const deleteContact = allContacts[index];
+  if (index !== -1) {
+    allContacts.splice(index, 1);
+    await fs.writeFile(contactsPath, JSON.stringify(allContacts));
+  }
+  return deleteContact ? deleteContact : null;
+};
 
-function addContact(name, email, phone) {
-  // ...твій код
-}
+const addContact = async (name, email, phone) => {
+  const nevContact = {
+    id: 22,
+    name,
+    email,
+    phone,
+  };
+  const allContacts = await listContacts();
+  allContacts.push(nevContact);
+  await fs.writeFile(contactsPath, JSON.stringify(allContacts));
+};
 const contacts = {
   listContacts,
   getContactById,
