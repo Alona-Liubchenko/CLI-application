@@ -1,6 +1,6 @@
-const { assert } = require("console");
-const fs = require("fs/promises");
+const fs = require("fs").promises;
 const path = require("path");
+const uuid = require("uuid");
 const contactsPath = path.join(__dirname, "db/contacts.json");
 
 const listContacts = async () => {
@@ -31,7 +31,7 @@ const removeContact = async (id) => {
 
 const addContact = async (name, email, phone) => {
   const nevContact = {
-    id: 22,
+    id: uuid.v4(),
     name,
     email,
     phone,
