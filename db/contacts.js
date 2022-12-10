@@ -1,7 +1,7 @@
 const fs = require("fs").promises;
 const path = require("path");
 const uuid = require("uuid");
-const contactsPath = path.join(__dirname, "db/contacts.json");
+const contactsPath = path.join(__dirname, "contacts.json");
 
 const listContacts = async () => {
   const dataString = await fs.readFile(contactsPath, "utf8");
@@ -9,18 +9,17 @@ const listContacts = async () => {
   return data;
 };
 
-const getContactById = async (contactId) => {
+const getContactById = async (id) => {
+  const contactId = String(id);
   const allContacts = await listContacts();
-  // console.log(allContacts);
   const contact = allContacts.find((contact) => contact.id === contactId);
-  console.log(contact);
-  return contact ? contact : null;
+  return contact || null;
 };
 
 const removeContact = async (id) => {
+  const contactId = String(id);
   const allContacts = await listContacts();
-  const index = allContacts.findIndex((contact) => contact.id === id);
-  console.log(id);
+  const index = allContacts.findIndex((contact) => contact.id === contactId);
   const deleteContact = allContacts[index];
   if (index !== -1) {
     allContacts.splice(index, 1);
